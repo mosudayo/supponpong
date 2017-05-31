@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,9 +10,22 @@ public class boruunosukuriputo : NetworkBehaviour
     public float sokudox = 0.0f;
     [SyncVar]
     public float sokudoy = 0.0f;
+    //スコア集計用
+    [SyncVar]
+    public int sukoa = 0;
+    [SyncVar]
+    public int sukob = 0;
+
+    //スコア表示用
+    public Text text;
 
     public float gensui = 10.0f;
     public int renzokuhit = 5;
+
+    public float distance;
+
+    //ゴール用のゲームオブジェクトを（複数持つ可能性があるので）配列で作成
+    public GameObject[] goru;
 
     private Animator animator;
 
@@ -19,11 +33,11 @@ public class boruunosukuriputo : NetworkBehaviour
     void Start ()
     {
         animator = GetComponent<Animator>();
-
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         renzokuhit -= 1;
 
@@ -31,19 +45,41 @@ public class boruunosukuriputo : NetworkBehaviour
         if (sokudox < 0.009) { sokudox += gensui; if (sokudox > 0) { sokudox = 0; } }
         if (sokudoy > 0.009) { sokudoy -= gensui; if (sokudoy < 0) { sokudoy = 0; } }
         if (sokudoy < 0.009) { sokudoy += gensui; if (sokudoy > 0) { sokudoy = 0; } }
-        
+
         transform.Translate(sokudox, sokudoy, 0.0F);
-        
+
         if (transform.position.x < -580 && sokudox <= 0) { sokudox *= -1; }
         if (transform.position.x > 1220 && sokudox >= 0) { sokudox *= -1; }
         if (transform.position.y < -330 && sokudoy <= 0) { sokudoy *= -1; }
-        if (transform.position.y > 740  && sokudoy >= 0) { sokudoy *= -1; }
-        
+        if (transform.position.y > 740 && sokudoy >= 0) { sokudoy *= -1; }
+
         if (sokudox != 0 || sokudoy != 0) { animator.SetFloat("speeed", 1.0f); }
         if (sokudox == 0 && sokudoy == 0) { animator.SetFloat("speeed", 0.0f); }
 
-    }
+        if (isServer) {
+            //ゴールとボールの距離の判定(サーバーだけで計算する)
 
+            Vector3 Apos = goru[0].transform.position;
+            Vector3 Bpos = transform.position;
+            //bool fragu = false;
+            distance = (Apos - Bpos).sqrMagnitude;
+            //text.text = distance.ToString();
+            if (distance < 9000) {
+                sukoa += 1;
+              //  fragu = true;
+            }
+
+            Apos = goru[1].transform.position;
+            distance = (Apos - Bpos).sqrMagnitude;
+            if (distance < 9000) {
+                sukob += 1;
+               // fragu = true;                
+            }
+
+        }
+        text.text = "あお" + sukoa.ToString() + "\naka" + sukob.ToString();
+
+    }
     public void directhenko(float dx,float dy) {
         if (renzokuhit >= 1) { return; }
 

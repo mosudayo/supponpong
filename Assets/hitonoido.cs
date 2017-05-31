@@ -11,7 +11,7 @@ public class hitonoido : NetworkBehaviour {
 
 	public GameObject objA;
 	public GameObject objB;
-
+    
 	public float dx;
 	public float dy;
 
@@ -73,6 +73,8 @@ public class hitonoido : NetworkBehaviour {
 		if ( distance < 4000 ) {
 			Cmduntitti( dx, dy ); // 関数の引数としてdx,dyを渡す
 		}
+
+
 	}
 
 	[Command]
