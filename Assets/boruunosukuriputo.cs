@@ -12,9 +12,9 @@ public class boruunosukuriputo : NetworkBehaviour
     public float sokudoy = 0.0f;
     //スコア集計用
     [SyncVar]
-    public int sukoa = 0;
+    public float sukoa = 0;
     [SyncVar]
-    public int sukob = 0;
+    public float sukob = 0;
 
     //スコア表示用
     public Text text;
@@ -64,20 +64,20 @@ public class boruunosukuriputo : NetworkBehaviour
             //bool fragu = false;
             distance = (Apos - Bpos).sqrMagnitude;
             //text.text = distance.ToString();
-            if (distance < 9000) {
-                sukoa += 1;
+            if (distance < 11000) {
+                sukoa += Mathf.Abs(sokudox) + Mathf.Abs(sokudoy);
               //  fragu = true;
             }
 
             Apos = goru[1].transform.position;
             distance = (Apos - Bpos).sqrMagnitude;
-            if (distance < 9000) {
-                sukob += 1;
-               // fragu = true;                
+            if (distance < 11000) {
+                sukob += Mathf.Abs(sokudox) + Mathf.Abs(sokudoy);
+                // fragu = true;                
             }
 
         }
-        text.text = "あお" + sukoa.ToString() + "\naka" + sukob.ToString();
+        text.text = "あお：" + sukoa.ToString() + "てん\nあか：" + sukob.ToString() + "てん";
 
     }
     public void directhenko(float dx,float dy) {

@@ -26,8 +26,9 @@ public class hitonoido : NetworkBehaviour {
 		speed = 20.0F;
 		objA = GameObject.FindGameObjectWithTag("unti");
 		animator = GetComponent<Animator>();
-		
-	}
+
+        GetComponent<SpriteRenderer>().material.color = Color.green;
+    }
 
 	// Update is called once per frame
 	void Update() {
@@ -39,6 +40,7 @@ public class hitonoido : NetworkBehaviour {
 				
 		// キー入力による移動は
 		if ( isLocalPlayer ) {
+
 			dx = Input.GetAxis("Horizontal");
 			if ( dx < 0 ) { dx = -1F * speed; }
 			if ( dx > 0 ) { dx = 1F * speed; }
@@ -54,9 +56,15 @@ public class hitonoido : NetworkBehaviour {
 			if ( dx == 0 && dy == 0 ) { animator.SetFloat("speeed", 0.0f); }
 
 			transform.Translate(dx, dy, 0.0F);
-		}
 
-		/*
+            //Fire1ボタンを押しているかどうかで色を変える
+            if (Input.GetButton("Fire1")) {
+                GetComponent<SpriteRenderer>().material.color = Color.red;
+            }
+            else { GetComponent<SpriteRenderer>().material.color = Color.green; }
+        }
+
+        /*
 			この位置で接触判定をするのであればクライアント側で行う必要がある。
 			元々のコードではCmd関数の中でクラスのメンバ変数(dx.dy)を参照していたが
 			Cmduntitti()が呼び出されるのはServer上のhitonoidoインスタンスなので
@@ -65,13 +73,16 @@ public class hitonoido : NetworkBehaviour {
 			今回はdx,dyを同期するのではなく引数で渡す形とした。
 		*/
 
-		//ボールとの距離の計算
-		Vector3 Apos = objA.transform.position;
+        //ボールとの距離の計算
+        Vector3 Apos = objA.transform.position;
 		Vector3 Bpos = transform.position;
 		distance = (Apos - Bpos).sqrMagnitude;
 		//text.text = distance.ToString();
 		if ( distance < 4000 ) {
-			Cmduntitti( dx, dy ); // 関数の引数としてdx,dyを渡す
+            //Fire1ボタンを押している場合，適当な数字を足して適当な数字をかけて制御不可能な速度にする
+            if (Input.GetButton("Fire1")) { dx += 10; dy += 10; dx *=Random.Range(3,6) ;dy *= Random.Range(3, 6); }
+            
+            Cmduntitti( dx, dy ); // 関数の引数としてdx,dyを渡す
 		}
 
 
