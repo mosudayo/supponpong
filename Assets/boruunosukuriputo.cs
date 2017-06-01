@@ -44,8 +44,8 @@ public class boruunosukuriputo : NetworkBehaviour
         Vector3 to = new Vector3(gizmox1, gizmoy1,0);
         Vector3 from = transform.position;
         Gizmos.DrawLine(from, to);
-        gizmox1 = to.x;
-        gizmoy1 = to.y;
+        gizmox1 = from.x;
+        gizmoy1 = from.y;
     }
         // Update is called once per frame
         void Update()
