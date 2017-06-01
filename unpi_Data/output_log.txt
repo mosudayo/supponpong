@@ -22,7 +22,7 @@ Platform assembly: D:\Users\marubayasi\Documents\unityproject\supponpong\unpi_Da
 <RI> Input initialized.
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 1.029131 ms
+UnloadTime: 1.868347 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 3b20 -> priority: 1 
-  Thread -> id: 3870 -> priority: 1 
+  Thread -> id: 3f6c -> priority: 1 
+  Thread -> id: 2798 -> priority: 1 

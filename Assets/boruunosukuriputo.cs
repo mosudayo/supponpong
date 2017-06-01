@@ -23,22 +23,33 @@ public class boruunosukuriputo : NetworkBehaviour
     public int renzokuhit = 5;
 
     public float distance;
-
+    
     //ゴール用のゲームオブジェクトを（複数持つ可能性があるので）配列で作成
     public GameObject[] goru;
 
     private Animator animator;
+
+    // 距離計算用
+    float gizmox1 = 0;
+    float gizmoy1 = 0;
 
     // Use this for initialization
     void Start ()
     {
         animator = GetComponent<Animator>();
     }
-
-    // Update is called once per frame
-    void Update()
+    void OnDrawGizmos()
     {
-
+        Gizmos.color = Color.blue;
+        Vector3 to = new Vector3(gizmox1, gizmoy1,0);
+        Vector3 from = transform.position;
+        Gizmos.DrawLine(from, to);
+        gizmox1 = to.x;
+        gizmoy1 = to.y;
+    }
+        // Update is called once per frame
+        void Update()
+    {
         renzokuhit -= 1;
 
         if (sokudox > 0.009) { sokudox -= gensui; if (sokudox < 0) { sokudox = 0; } }
@@ -57,8 +68,10 @@ public class boruunosukuriputo : NetworkBehaviour
         if (sokudox == 0 && sokudoy == 0) { animator.SetFloat("speeed", 0.0f); }
 
         if (isServer) {
-            //ゴールとボールの距離の判定(サーバーだけで計算する)
 
+            OnDrawGizmos();
+
+            //ゴールとボールの距離の判定(サーバーだけで計算する)
             Vector3 Apos = goru[0].transform.position;
             Vector3 Bpos = transform.position;
             //bool fragu = false;
