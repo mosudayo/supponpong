@@ -69,7 +69,7 @@ public class boruunosukuriputo : NetworkBehaviour
 
         if (isServer) {
 
-            OnDrawGizmos();
+            //OnDrawGizmos();
 
             //ゴールとボールの距離の判定(サーバーだけで計算する)
             Vector3 Apos = goru[0].transform.position;
