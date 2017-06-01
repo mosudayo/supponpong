@@ -33,6 +33,7 @@ public class boruunosukuriputo : NetworkBehaviour
     public float gizmox1 = 0;
     public float gizmoy1 = 0;
 
+    public GameObject tama;
     // Use this for initialization
     void Start ()
     {
@@ -100,6 +101,11 @@ public class boruunosukuriputo : NetworkBehaviour
     {
         renzokuhit -= 1;
 
+        if (sokudox >=  1000) { sokudox =  1000; }
+        if (sokudoy >=  1000) { sokudoy =  1000; }
+        if (sokudox <= -1000) { sokudox = -1000; }
+        if (sokudoy <= -1000) { sokudoy = -1000; }
+
         if (sokudox > 0.009) { sokudox -= gensui; if (sokudox < 0) { sokudox = 0; } }
         if (sokudox < 0.009) { sokudox += gensui; if (sokudox > 0) { sokudox = 0; } }
         if (sokudoy > 0.009) { sokudoy -= gensui; if (sokudoy < 0) { sokudoy = 0; } }
@@ -121,7 +127,7 @@ public class boruunosukuriputo : NetworkBehaviour
                 sokudoy = temp;
                             }
             if (tinpo == 2) {
-                if (sokudox == 0) { sokudox = sokudoy * Random.Range(0.5f,1.0f); } else if(sokudoy == 0) { sokudoy = sokudox * Random.Range(0.5f, 1.0f); }
+               // if (sokudox == 0) { sokudox = sokudoy * Random.Range(0.5f,1.0f); } else if(sokudoy == 0) { sokudoy = sokudox * Random.Range(0.5f, 1.0f); }
             }
         }
 
@@ -137,12 +143,16 @@ public class boruunosukuriputo : NetworkBehaviour
 
             if (result.Collision == true ) {
                 sukoa += Mathf.Abs(sokudox) + Mathf.Abs(sokudoy);
+                GameObject tree = Instantiate(tama, transform.position, transform.rotation);
+                NetworkServer.Spawn(tree);
             }
             
             CircleLineCollide(goru[1].transform.position, 180, new Vector2(gizmox1, gizmoy1), transform.position, ref result);
 
             if (result.Collision == true) {
                 sukob += Mathf.Abs(sokudox) + Mathf.Abs(sokudoy);
+                GameObject tree = Instantiate(tama,transform.position, transform.rotation);
+                NetworkServer.Spawn(tree);
             }
 
             /*ゴールとボールの距離の判定(サーバーだけで計算する)

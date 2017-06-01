@@ -11,8 +11,9 @@ public class hitonoido : NetworkBehaviour {
 
 	public GameObject objA;
 	public GameObject objB;
-    
-	public float dx;
+
+
+    public float dx;
 	public float dy;
 
 	public float ux;
@@ -20,7 +21,7 @@ public class hitonoido : NetworkBehaviour {
 
 	public float distance;
 
-	public Text text;
+    public Text text;
 	// Use this for initialization
 	void Start () {
 		speed = 20.0F;
@@ -154,6 +155,6 @@ public class hitonoido : NetworkBehaviour {
 			関数の引数などを使うようにする。
 		*/
 		objA.GetComponent<boruunosukuriputo>().directhenko(powerX, powerY);
-	}
+    }
 
 }
